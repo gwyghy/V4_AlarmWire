@@ -1,0 +1,16 @@
+# Prerequisites
+Project/output/*
+
+Project/ZDYZ-Controller.uvguix.HNLPC130
+Project/ZDYZ-Controller.uvoptx
+
+Project/list/ZDYZ-Controller.map
+Project/list/os_cpu_a.lst
+Project/list/startup_stm32f429_439xx.lst
+Project/JLinkLog.txt
+Project/ZDYZ-Controller.uvguix.HNLPC131
+Project/ZDYZ-Controller.uvguix.HNLPC216
+
+Project/ZDYZ-Controller.uvguix.HN-LPC-216
+Project/ZDYZ-Controller.uvguix.*
+ Project/JLinkLog.txt
