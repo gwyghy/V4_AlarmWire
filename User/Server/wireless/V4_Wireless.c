@@ -2270,7 +2270,11 @@ void Wireless_CodeMatching_Ack_Proc(uint8_t state)
 	if(SysParam.globalParam.SupportParam.Paring_Method ==0) //对码方式为串口时
 		InsSendWirelessDataProc(&frame,V4ykq.YkqNum);
 	else if(SysParam.globalParam.SupportParam.Paring_Method ==1)//对码方式为CAN时
+	{
+		Alarm_SetSCAddressData(V4ykq.YkqNum);
+		PLATFORM_OS_TimeDly(1);
 		InsSendWirelessAlarmDataProc(&frame,V4ykq.YkqNum);
+	}
 	YkqIrTimer = TIMERCLOSE;
 	YkqDecodeTimer = YKQDECODETIMER;
 }
@@ -2314,7 +2318,9 @@ static void Wireless_SC_Decode_Proc(void)
 	if(SysParam.globalParam.SupportParam.Paring_Method ==0)//对码方式选择为串口时
 		InsSendWirelessDataProc(&frame,V4ykq.YkqNum);
 	else if(SysParam.globalParam.SupportParam.Paring_Method ==1)//对码方式选择为CAN时
+	{
 	    InsSendWirelessAlarmDataProc(&frame,V4ykq.YkqNum);
+	}
 	V4ykq.YkqNum = 0;
 	V4ykq.YkqState = STATE_IDLE;
 	StateLed(0,LED_MATCH_BUSY|LED_MATCH_IR);
@@ -2387,6 +2393,8 @@ uint16_t Wireless_Ykq_Decode_Proc(STR_WLCAN_Frame* frame)
 	if(V4ykq.YkqState != STATE_WL_SUCCESS)
 		return 0;
 	
+	if(SysParam.globalParam.SupportParam.Paring_Method == 1)//对码方式选择为CAN时
+		Alarm_SetSCAddressData(scNum);
 
 	if(V4ykq.controllNum != scNum)
 	{
@@ -3469,9 +3477,6 @@ void InsUsartIrRecvData_proc(STR_WLCAN_Frame * data,uint8_t len)
 	memcpy(frame.SendBuf,data,len);
 	InsUsartRevQueue(0,&frame);
 }
-
-
-
 
 void Wireless_Pro_Init(void)
 {

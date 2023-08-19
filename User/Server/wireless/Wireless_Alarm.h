@@ -50,7 +50,8 @@ enum
 	FT_REMOTE_ADD_PRS_EN_PERMIT,	//遥控器控制自动补压开启应答
 	FT_REMOTE_ADD_PRS_DIS,			//遥控器控制自动补压关闭
 	FT_REMOTE_ADD_PRS_DIS_PERMIT,	//遥控器控制自动补压关闭应答
-	FT_WL_SET_WLALARMPARA,			//设置声光433无线模块参数
+	FT_WL_SET_WLALARMPARA = 23,			//设置声光433无线模块参数
+	FT_SC_TO_WL_SET_RECEIVER_ADD = 24,  //设置遥控器发送方的ID
 	FT_WL_MAX,						//最后一项
 	FT_WL_SET_PARA=30,				//设置无线红外模块参数
 	FT_WL_MATCH_END=31,				//通知无线红外模块对码结束
@@ -63,6 +64,7 @@ enum
 
 
 void Alarm_SendSCAddressData(void);
+void  Alarm_SetSCAddressData(u8 RecvAdress);
 void InsAlarmWirelessIrRecvData_proc(STR_WLCAN_Frame * data,uint8_t len);
 uint16_t WirelessAlarm_CodeMatching_Proc(void *pdata , STR_Can_Frame* frame);
 uint16_t  WirelessAlarm_KeyProc(void *pdata , STR_Can_Frame* frame);

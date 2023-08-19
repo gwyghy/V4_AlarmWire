@@ -62,6 +62,34 @@ void Alarm_SendSCAddressData(void)
     CanBusDealFunc(NATIVECAN1,CANBUS_MSG_InsCanHighTrsQueue,&canTrsQueue);
 	
 }
+/********************************************************************************
+* 功能描述： 设置接收方地址
+* 入口参数：
+* 返回值：无
+********************************************************************************/
+void  Alarm_SetSCAddressData(u8 RecvAdress)
+{
+	stCanTrsQueue canTrsQueue;
+	memset(&canTrsQueue,0,sizeof(stCanTrsQueue));
+	STR_V2CAN_Frame v2frame;
+	v2frame.u32ID.ID.ACK = 0;
+	v2frame.u32ID.ID.FrameType = FT_SC_TO_WL_SET_RECEIVER_ADD;			
+	v2frame.u32ID.ID.RxID = V2ID_WL;
+	v2frame.u32ID.ID.TxID = V2ID_SC;
+	v2frame.u32ID.ID.Reservd = 0;
+	v2frame.u32ID.ID.Sub = 0;
+	v2frame.u32ID.ID.Sum = 0;
+	v2frame.u32ID.ID.LiuShuiNumb = S_LiuShuiNumb;
+	S_LiuShuiNumb++;
+	S_LiuShuiNumb %= 0x0F;
+
+	v2frame.u16DLC = 1;
+	
+	v2frame.u8DT[0] =  RecvAdress;
+	memcpy(&canTrsQueue.TrsFrame,&v2frame,sizeof(STR_Can_Frame));
+    CanBusDealFunc(NATIVECAN1,CANBUS_MSG_InsCanHighTrsQueue,&canTrsQueue);
+}
+
 /*******************************************************************************************
 **函数名称：InsAlarmWirelessIrRecvData_proc
 **函数作用：红外对码CAN处理
